@@ -27,6 +27,7 @@ namespace BasicDBWebApp.Controllers
             string name)
         {
             var request = new GetStudentByNameRequest {  StudentName = name };
+
             return await _service.GetStudentByNameAsync(request);
         }
 
@@ -46,7 +47,7 @@ namespace BasicDBWebApp.Controllers
         }
 
         [HttpPost("name/{name}/email/{email}")]
-        public async Task<Guid> CreateStudent(
+        public async Task<Guid> CreateStudentAsync(
             string name,
             string email)
         {
