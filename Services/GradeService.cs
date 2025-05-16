@@ -23,6 +23,7 @@ namespace BasicDBWebApp.Services
         public async Task<List<GradeDto>> GetGradesAsync()
         {
             var grades = await _context.Grades
+                .Include(g => g.Students)
                 .ToListAsync();
 
             var gradesDto = new List<GradeDto>();
@@ -59,6 +60,7 @@ namespace BasicDBWebApp.Services
         {
             var grade = await _context.Grades
                 .Where(g => g.GradeName.Equals(request.GradeName))
+                .Include(g => g.Students)
                 .FirstOrDefaultAsync();
 
             if (grade is not null)
@@ -81,6 +83,7 @@ namespace BasicDBWebApp.Services
         {
             var grade = await _context.Grades
                 .Where(g => g.GradeID.Equals(request.Guid))
+                .Include(g => g.Students)
                 .FirstOrDefaultAsync();
 
             if (grade is not null)

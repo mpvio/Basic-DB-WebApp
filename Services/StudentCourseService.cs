@@ -20,26 +20,17 @@ namespace BasicDBWebApp.Services
 
         public async Task<List<StudentCourseDto>> GetStudentCoursesAsync()
         {
-            var scs = await _context.StudentCourses
-                .ToListAsync();
-
-            if (scs == null)
-            {
-                throw new FileNotFoundException(message: "Student/ Courses Not Found.");
-            }
-
-            var scsDto = new List<StudentCourseDto>();
-
-            foreach (var sc in scs)
-            {
-                scsDto.Add(new StudentCourseDto
+            var scsDto = await _context.StudentCourses
+                .Include(sc => sc.Student)
+                .Include(sc => sc.Course)
+                .Select(sc => new StudentCourseDto
                 {
                     StudentID = sc.StudentID,
-                    StudentName = sc.Student?.StudentName,
+                    StudentName = sc.Student.StudentName,
                     CourseID = sc.CourseID,
-                    CourseName = sc.Course?.CourseName
-                });
-            }
+                    CourseName = sc.Course.CourseName
+                })
+                .ToListAsync();
 
             return scsDto;
         }
@@ -49,6 +40,8 @@ namespace BasicDBWebApp.Services
         {
             var sc = await _context.StudentCourses
                 .Where(sc => sc.Student.StudentName.Equals(req.Name))
+                .Include(sc => sc.Student)
+                .Include(sc => sc.Course)
                 .FirstOrDefaultAsync();
 
             if (sc == null)
@@ -70,6 +63,8 @@ namespace BasicDBWebApp.Services
         {
             var sc = await _context.StudentCourses
                 .Where(sc => sc.Course.CourseName.Equals(req.Name))
+                .Include(sc => sc.Student)
+                .Include(sc => sc.Course)
                 .FirstOrDefaultAsync();
 
             if (sc == null)

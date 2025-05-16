@@ -27,6 +27,7 @@ namespace BasicDBWebApp.Services
         {
             var student = await _context.Students
                 .Where(s => s.StudentName == request.StudentName)
+                .Include(s => s.Grade)
                 .FirstOrDefaultAsync();
 
             if (student is not null)
@@ -36,7 +37,8 @@ namespace BasicDBWebApp.Services
                     StudentID = student.StudentID,
                     StudentEmail = student.StudentEmail,
                     StudentName = student.StudentName,
-                    GradeID = student.GradeID
+                    GradeID = student.GradeID,
+                    GradeName = student.Grade?.GradeName
                 };
             } else
             {
@@ -50,6 +52,7 @@ namespace BasicDBWebApp.Services
         {
             var student = await _context.Students
                 .Where(s => s.StudentID.Equals(request.Id))
+                .Include(s => s.Grade)
                 .FirstOrDefaultAsync();
 
             if (student is not null)
@@ -59,7 +62,8 @@ namespace BasicDBWebApp.Services
                     StudentID = student.StudentID,
                     StudentEmail = student.StudentEmail,
                     StudentName = student.StudentName,
-                    GradeID = student.GradeID
+                    GradeID = student.GradeID,
+                    GradeName = student.Grade?.GradeName
                 };
             }
             else
@@ -72,6 +76,7 @@ namespace BasicDBWebApp.Services
         public async Task<List<StudentDto>> GetStudentsAsync()
         {
             var students = await _context.Students
+                .Include(s => s.Grade)
                 .ToListAsync();
 
             var studentsDto = new List<StudentDto>();
@@ -83,7 +88,8 @@ namespace BasicDBWebApp.Services
                     StudentID = student.StudentID,
                     StudentEmail = student.StudentEmail,
                     StudentName = student.StudentName,
-                    GradeID = student.GradeID
+                    GradeID = student.GradeID,
+                    GradeName = student.Grade?.GradeName
                 });
             }
 
@@ -114,6 +120,7 @@ namespace BasicDBWebApp.Services
 
             var student = await _context.Students
                 .Where(s => s.StudentID.Equals(request.StudentID))
+                .Include(s => s.Grade)
                 .FirstOrDefaultAsync();
 
             if (grade is null)
@@ -144,7 +151,8 @@ namespace BasicDBWebApp.Services
                 StudentID = student.StudentID,
                 StudentEmail = student.StudentEmail,
                 StudentName = student.StudentName,
-                GradeID = student.GradeID
+                GradeID = student.GradeID,
+                GradeName = student.Grade.GradeName
             };
 
         }

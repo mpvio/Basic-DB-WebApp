@@ -12,8 +12,8 @@ namespace BasicDBWebApp.MyDbContext
         public DbSet<Course> Courses { get; set; } 
         public DbSet<StudentCourse> StudentCourses { get; set; }
 
-        //public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-        //{}
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        { }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{

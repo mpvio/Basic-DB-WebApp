@@ -8,5 +8,6 @@ namespace BasicDBWebApp.Dtos
         public string StudentName { get; set; } = string.Empty;
         public string StudentEmail { get; set; } = string.Empty;
         public Guid? GradeID { get; set; }
+        public string? GradeName { get; set;} = string.Empty;
     }
 }
